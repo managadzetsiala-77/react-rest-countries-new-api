@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
+import { useThemeStore } from "../store/useThemeStore";
 
 
 const Home = () => {
@@ -8,6 +9,7 @@ const Home = () => {
   const [search,setSearch] = useState("")
   const [region, setRegion] = useState("all")
   const [countries, setCountries] = useState([]);
+const isDark = useThemeStore((state) => state.isDark)
 
   useEffect(() => {
     async function getCountries() {
@@ -36,10 +38,10 @@ const Home = () => {
   return (
     <div>
       <Header />
-      <section className="bg-[#FAFAFA] px-4.5 lg:px-20">
+      <section className={`${isDark ? "bg-[#202C36]" : "bg-[#FAFAFA]"} px-4.5 lg:px-20`} >
         <div className=" py-6 px-4 flex flex-col gap-8 lg:flex-row lg:gap-150">
 
-          <div className="w-80 h-12 flex items-center bg-white rounded-[5px] shadow-[0px_2px_9px_0px_rgba(0,0,0,0.05)] gap-6.5 pl-8">
+          <div className={`w-80 h-12 flex items-center rounded-[5px] shadow-[0px_2px_9px_0px_rgba(0,0,0,0.05)] gap-6.5 pl-8 ${isDark ? "bg-[#2B3844] text-white" : "bg-white text-black"}`}>
             <img src="images/search.svg" alt="" />
             <form>
               <input
@@ -55,7 +57,7 @@ const Home = () => {
           <form>
             <select
              onChange={(e) => setRegion(e.target.value)}
-              className="w-48 h-12 bg-white rounded-[5px] shadow-[0px_2px_9px_0px_rgba(0,0,0,0.05)]"
+              className={`w-48 h-12 pl-3 rounded-[5px] shadow-[0px_2px_9px_0px_rgba(0,0,0,0.05)] ${isDark ? "bg-[#2B3844] text-white" : "bg-white text-black"}`}
               name=""
               id=""
             >
@@ -74,27 +76,28 @@ const Home = () => {
             <Link
               key={item.cca3}
               to={`/details/${item.cca3}`}
-              className="w-64 h-80 bg-white rounded-[5px] shadow-[0px_0px_7px_2px_rgba(0,0,0,0.03)] flex flex-col gap-6  mt-8 mx-9.5"
+              className={`w-64 h-80 rounded-[5px] shadow-[0px_0px_7px_2px_rgba(0,0,0,0.03)] flex flex-col gap-6  mt-8 mx-9.5 ${isDark ? "bg-[#2B3844] text-white" : "bg-white text-black"
+              }`}
             >
               <img src={item.flags.svg} alt={item.name.common} />
               <div className="ml-6">
-                <h2 className="justify-start text-neutral-900 text-lg font-extrabold font-['Nunito_Sans'] leading-6 mb-4.5">
+                <h2 className={`justify-start text-neutral-900 text-lg font-extrabold font-['Nunito_Sans'] leading-6 mb-4.5 ${isDark ? "text-white" : ""}`}>
                   {item.name.common}
                 </h2>
-                <p className="text-neutral-900 text-sm font-semibold font-['Nunito_Sans'] leading-4">
-                  <span className="text-neutral-900 text-sm font-light font-['Nunito_Sans'] leading-4">
+                <p className={`text-neutral-900 text-sm font-semibold font-['Nunito_Sans'] leading-4 ${isDark ? "text-white" : ""}`}>
+                  <span className={`text-neutral-900 text-sm font-light font-['Nunito_Sans'] leading-4 ${isDark ? "text-white" : ""}`}>
                     Populacion:
                   </span>{" "}
                   {item.population.toLocaleString()}
                 </p>
-                <p className="text-neutral-900 text-sm font-semibold font-['Nunito_Sans'] leading-4">
-                  <span className="text-neutral-900 text-sm font-light font-['Nunito_Sans'] leading-4">
+                <p className={`text-neutral-900 text-sm font-semibold font-['Nunito_Sans'] leading-4 ${isDark ? "text-white" : ""}`}>
+                  <span className={`text-neutral-900 text-sm font-light font-['Nunito_Sans'] leading-4 ${isDark ? "text-white" : ""}`}>
                     Region:
                   </span>
                   {item.region}
                 </p>
-                <p className="text-neutral-900 text-sm font-semibold font-['Nunito_Sans'] leading-4">
-                  <span className="text-neutral-900 text-sm font-light font-['Nunito_Sans'] leading-4">
+                <p className={`text-neutral-900 text-sm font-semibold font-['Nunito_Sans'] leading-4 ${isDark ? "text-white" : ""}`}>
+                  <span className={`text-neutral-900 text-sm font-light font-['Nunito_Sans'] leading-4 ${isDark ? "text-white" : ""}`}>
                     Capotal:
                   </span>{" "}
                   {item.capital?.[0] || "N/A"}
